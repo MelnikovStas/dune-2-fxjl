@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.dune.rts'
+version = '1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.github.almasb:fxgl:17.3'
+    
+    def javaFxVersion = "20"
+    implementation "org.openjfx:javafx-base:${javaFxVersion}"
+    implementation "org.openjfx:javafx-controls:${javaFxVersion}"
+    implementation "org.openjfx:javafx-graphics:${javaFxVersion}"
+    implementation "org.openjfx:javafx-fxml:${javaFxVersion}"
+    implementation "org.openjfx:javafx-media:${javaFxVersion}"
+}
+
+application {
+    mainClass = 'com.dune.rts.DuneRTSApp'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.dune.rts.DuneRTSApp'
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
